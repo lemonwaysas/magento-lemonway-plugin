@@ -25,8 +25,8 @@
  	
  	
  	protected $_code  = 'lemonway_webkit';
- 	/*protected $_formBlockType = 'cashway/form_cashway';
- 	protected $_infoBlockType = 'cashway/info_cashway';*/
+ 	protected $_formBlockType = 'sirateck_lemonway/form_webkit';
+ 	protected $_infoBlockType = 'sirateck_lemonway/info_webkit';
  	
  	
  }
