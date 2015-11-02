@@ -56,6 +56,29 @@
             </sirateck_lemonway_resource>
         </models>
     </global>
+    <frontend>
+		<secure_url>
+            <sirateck_lemonway>/lemonway/payment</sirateck_lemonway>
+        </secure_url>
+        <routers>
+            <sirateck_lemonway>
+                <use>standard</use>
+                <args>
+                    <module>Sirateck_Lemonway</module>
+                    <frontName>lemonway</frontName>
+                </args>
+            </sirateck_lemonway>
+        </routers>
+		<translate>
+            <modules>
+                <Sirateck_Lemonway>
+                    <files>
+                        <default>Sirateck_Lemonway.csv</default>
+                    </files>
+                </Sirateck_Lemonway>
+            </modules>
+        </translate>
+	</frontend>
     <adminhtml>
         <layout>
             <updates>
@@ -96,6 +119,7 @@
 			<lemonway_api>			
 				<api_pass backend_model="adminhtml/system_config_backend_encrypted"/>
 				<api_pass_test backend_model="adminhtml/system_config_backend_encrypted"/>
+				<!-- @TODO maybe auto-generate api urls -->
 				<directkit_uri>https://ws.lemonway.fr/mb/sirateck/dev/directkit/service.asmx</directkit_uri>
 				<directkit_json_uri>https://ws.lemonway.fr/mb/sirateck/dev/directkitjson/service.asmx</directkit_json_uri>
 				<webkit_uri>https://m.lemonway.fr/mb/sirateck/dev/</webkit_uri>
@@ -105,13 +129,17 @@
 			<lemonway_webkit>
 				<active>0</active>
 				<title>Lemonway payment</title>
+				<autocommission>1</autocommission>
+				<commission_amount></commission_amount>
+				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
 				<payment_action>initialize</payment_action>
-				<allowredirect>1</allowredirect>
-				<redirectspecific>0</redirectspecific>
 				<allowspecific>0</allowspecific>
 				<is_test_mode>0</is_test_mode>
 				<debug>0</debug>
-				<model>sirateck_lemonway/method_webkit</model>		
+				<model>sirateck_lemonway/method_webkit</model>
+				<return_url>lemonway/payment/return</return_url>
+				<cancel_url>lemonway/payment/cancel</cancel_url>
+				<error_url>lemonway/payment/error</error_url>	
 			</lemonway_webkit>
 		</payment>
 	</default>
