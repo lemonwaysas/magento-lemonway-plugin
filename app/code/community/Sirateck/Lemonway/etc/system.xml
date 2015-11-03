@@ -36,15 +36,24 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </api_pass>
-                        <wallet_merchant translate="label comment">
+                        <wallet_merchant_id translate="label comment">
                         	<label>Your wallet ID</label>
                         	<comment>It's the wallet where your payments are credited.You must to create it in BO Lemonway</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>25</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </wallet_merchant>                 
+                        </wallet_merchant_id>
+                        <wallet_merchant_email translate="label comment">
+                        	<label>Your wallet email</label>
+                        	<comment>Email related to your wallet. It's used for retrieve wallet's informations.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </wallet_merchant_email>                     
                          <!--  <api_login_test translate="label">
                     		<label>Test Api login</label>
                             <frontend_type>text</frontend_type>

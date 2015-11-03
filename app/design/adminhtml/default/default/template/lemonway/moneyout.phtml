@@ -1,0 +1,138 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="width:50%;"><h3 class="icon-head head-compilation"><?php echo $this->getHeader() ?></h3></td>
+            <td class="form-buttons">
+              <?php echo $this->getPayButtonHtml() ?>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="entry-edit">
+<form name="moneyout_form" id="moneyout_form" method="post" action="<?php echo $this->getPayFormAction(); ?>">
+<?php echo $this->getBlockHtml('formkey')?>
+<?php if (!$this->canPayMoneyOut()): ?>
+    <div id="messages"><?php echo $this->getMessagesBlock()->toHtml() ?></div>
+<?php endif;?>
+<div class="box-left">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Wallet informations') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__('Wallet informations') ?></legend>
+        <table cellspacing="0" class="form-list" style="width:100%">
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Wallet ID')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getWalletId() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Balance')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getBal()?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Owner name')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getName() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Owner email')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getEmail() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Status')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getStatus() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Is Blocked')?></label></td>
+                <td class="value">
+                    <strong><?php echo $this->getWallet()->getBlocked() ?></strong>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+<div class="box-right">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Iban informations') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo $this->__('Iban informations') ?></legend>
+        <?php foreach ($this->getWallet()->getIbans() as $_iban) :?>
+        <table cellspacing="0" class="form-list" style="width:100%">
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Iban ID')?></label></td>
+                <td class="value">
+                    <strong><?php echo $_iban->getIbanId() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Status')?></label></td>
+                <td class="value">
+                    <strong><?php echo $_iban->getStatus()?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Iban Data')?></label></td>
+                <td class="value">
+                    <strong><?php echo $_iban->getIban() ?></strong>
+                </td>
+            </tr>
+            <tr>
+                <td class="label"><label ><?php echo $this->__('Iban swift')?></label></td>
+                <td class="value">
+                    <strong><?php echo $_iban->getSwift() ?></strong>
+                </td>
+            </tr>
+        </table>
+        <?php endforeach; ?>
+    </fieldset>
+</div>
+<div class="clear"></div>
+
+<div class="entry-edit-head">
+	<h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Payment informations') ?></h4>
+</div>
+<fieldset>
+	<legend><?php echo $this->__('Payment informations') ?></legend>
+</fieldset>
+
+</form>
+</div>
+<script type="text/javascript">
+    moneyoutForm = new varienForm('moneyout_form');
+</script>

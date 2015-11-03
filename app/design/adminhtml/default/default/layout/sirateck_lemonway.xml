@@ -48,5 +48,17 @@
             <block type="sirateck_lemonway/adminhtml_wallet_edit_tabs" name="wallet_tabs"></block>
         </reference>
     </adminhtml_lemonway_wallet_edit>
+    
+    <adminhtml_lemonway_moneyout_pay>
+        <reference name="menu">
+            <action method="setActive">
+                <menupath>sales/sirateck_lemonway/moneyout</menupath>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="sirateck_lemonway/adminhtml_moneyout" name="moneyout" template="lemonway/moneyout.phtml" />
+
+        </reference>
+    </adminhtml_lemonway_moneyout_pay>
 
 </layout>

@@ -59,7 +59,7 @@
 
     	//call directkit to get Webkit Token
     	$params = array('wkToken'=>$this->getOrder()->getIncrementId(),
-    			'wallet'=> Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant'),
+    			'wallet'=> Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_id'),
     			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
     			'amountCom'=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getConfigData('commission_amount'))),
     			'comment'=>'',

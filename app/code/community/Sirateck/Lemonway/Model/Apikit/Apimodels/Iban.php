@@ -1,53 +1,26 @@
 <?php
-
-class Sirateck_Lemonway_Model_Apikit_Apimodels_Iban{
-
-	/**
-     * ID as defined by Lemon Way
-     * @var string
-     */
-    public $ID;
+/**
+ * @method int getIbanId() ID as defined by merchant
+ * @method int getStatus() {0,5,6,8,9}
+ * @method string getIban() iban number
+ * @method string getSwift() BIC or swift code
+ */
+class Sirateck_Lemonway_Model_Apikit_Apimodels_Iban extends Varien_Object{
 	
-	/**
-     * STATUS {0,5,6,8,9}
-     * @var string
-     */
-    public $STATUS;
-	
-	/**
-     * IBAN number
-     * @var string
-     */
-    public $IBAN;
-	
-	/**
-     * BIC or swift code
-     * @var string
-     */
-    public $BIC;
-	
-	/**
-     * DOM1 address line 1
-     * @var string
-     */
-    public $DOM1;
-	/**
-     * DOM2 address line 2
-     * @var string
-     */
-    public $DOM2;
-	
-	function __construct($nodeArr) {
-		$node = $nodeArr[0];
-		$this->ID = $node->ID;
-		if (isset($node->STATUS))
-			$this->STATUS = $node->STATUS;
-		if (isset($node->S))
-			$this->STATUS = $node->S;
-		if (isset($node->DATA))
-			$this->IBAN = $node->DATA;
-		if (isset($node->SWIFT))
-			$this->BIC = $node->SWIFT;
+	function __construct($nodeArr=array()) {
+		if(count($nodeArr))
+		{		
+			$node = $nodeArr[0];
+			$this->_data['iban_id'] = $node->ID;
+			if (isset($node->STATUS))
+				$this->_data['status'] = $node->STATUS;
+			if (isset($node->S))
+				$this->_data['status'] = $node->S;
+			if (isset($node->DATA))
+				$this->_data['iban'] = $node->DATA;
+			if (isset($node->SWIFT))
+				$this->_data['swift'] = $node->SWIFT;
+		}
 	}
 	
 }
