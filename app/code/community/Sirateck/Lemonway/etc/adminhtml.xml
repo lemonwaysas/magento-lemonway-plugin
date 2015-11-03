@@ -32,7 +32,7 @@
                             </config>
                         </children>
                     </system>
-                    <sales>
+                  <!--  <sales>
                         <children>
                             <sirateck_lemonway translate="title" module="sirateck_lemonway">
                                 <title>LW</title>
@@ -44,12 +44,13 @@
                                 </children>
                             </sirateck_lemonway>                        </children>
                     </sales>
+                     --> 
 
                 </children>
             </admin>
         </resources>
     </acl>
-    <menu>
+    <!--  <menu>
         <sales>
             <children>
                 <sirateck_lemonway translate="title" module="sirateck_lemonway">
@@ -66,4 +67,5 @@
         </sales>
 
     </menu>
+    -->
 </config>

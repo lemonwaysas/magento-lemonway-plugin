@@ -29,10 +29,12 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 	public function preDispatch()
 	{
 		parent::preDispatch();
+		
 		Mage::log($this->getRequest()->getRequestedActionName(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getMethod(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getParams(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getPost(),null,"debug_ipn_lw.log");
+		
 		$action = $this->getRequest()->getRequestedActionName();
 		if(!$this->_validateOperation($action))
 		{
@@ -88,7 +90,7 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		{
 			
 			$order = Mage::getModel('sales/order')->loadByIncrementId($this->getRequest()->getParam('response_wkToken'));
-			Mage::log($order->debug(),null,"debug_ipn_lw.log");
+
 			if($order->getId())
 				$this->_order = $order;
 			else
@@ -101,20 +103,63 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		return $this->_order;
 	}
 	
+	/**
+	 *  Create invoice for order
+	 *
+	 *  @param    Mage_Sales_Model_Order $order
+	 *  @return	  boolean Can save invoice or not
+	 */
+	protected function createInvoice($order)
+	{
+		if ($order->canInvoice()) {
+	
+			$version = Mage::getVersion();
+			$version = substr($version, 0, 5);
+			$version = str_replace('.', '', $version);
+			while (strlen($version) < 3) {
+				$version .= "0";
+			}
+	
+			if (((int) $version) < 111) {
+				$convertor = Mage::getModel('sales/convert_order');
+				$invoice = $convertor->toInvoice($order);
+				foreach ($order->getAllItems() as $orderItem) {
+					if (!$orderItem->getQtyToInvoice()) {
+						continue;
+					}
+					$item = $convertor->itemToInvoiceItem($orderItem);
+					$item->setQty($orderItem->getQtyToInvoice());
+					$invoice->addItem($item);
+				}
+				$invoice->collectTotals();
+			} else {
+				$invoice = $order->prepareInvoice();
+			}
+	
+			$invoice->register()->capture();
+			Mage::getModel('core/resource_transaction')
+			->addObject($invoice)
+			->addObject($invoice->getOrder())
+			->save();
+			return true;
+		}
+	
+		return false;
+	}
+	
 	
 	public function returnAction(){
 		$params = $this->getRequest()->getParams();
 		if($this->getRequest()->isGet())
 		{
-			if($params['reponse_code'] == "0000")	
-				$this->_redirect('checkout/onepage/success');
-			else
-				$this->_forward('error');
+
+			$this->_redirect('checkout/onepage/success');
+
 			return $this;
 		}
 		elseif($this->getRequest()->isPost())
 		{
-			if($params['reponse_code'] == "0000")
+			if($params['response_code'] == "0000")
 			{
 				
 				$message = $this->__('Transaction success.');
@@ -122,11 +167,13 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 				//DATA POST FROM NOTIFICATION
 				$order = $this->_getOrder();
 				$status = $order->getStatus();
-				$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status, $message);
+				$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
 				if (!$order->getEmailSent()) {
 					$order->sendNewOrderEmail();
 				}
-				//@TODO create invoice
+				
+				$this->createInvoice($order);
+				
 				$order->save();
 			}
 			else{
