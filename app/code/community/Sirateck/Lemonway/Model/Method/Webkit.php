@@ -72,7 +72,7 @@
     	$this->_debug($res);
 
     	if (isset($res->lwError)){
-    		Mage::throwException("Error code: " . $res->lwError->CODE . " Message: " . $res->lwError->MSG);
+    		Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
     	}
 		$moneyInToken = (string)$res->lwXml->MONEYINWEB->TOKEN;
     	$this->getInfoInstance()->setAdditionalInformation('moneyin_token',$moneyInToken);

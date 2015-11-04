@@ -36,7 +36,7 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		Mage::log($this->getRequest()->getPost(),null,"debug_ipn_lw.log");
 		
 		$action = $this->getRequest()->getRequestedActionName();
-		if(!$this->_validateOperation($action))
+		if($this->getRequest()->isPost() && !$this->_validateOperation($action))
 		{
 			$this->getResponse()->setBody("NOK. Wrong Operation!");
 			$this->setFlag('', 'no-dispatch', true);
@@ -55,13 +55,13 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		
 		
 		if (isset($res->lwError)){
-			Mage::throwException("Error code: " . $res->lwError->CODE . " Message: " . $res->lwError->MSG);
+			Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
 		}
 		
 		/* @var $op Sirateck_Lemonway_Model_Apikit_Apimodels_Operation */
 		foreach ($res->operations as $op) {
 			
-			if($op->STATUS == $actionToStatus[$action])
+			if($op->getStatus() == $actionToStatus[$action])
 			{
 				return true;
 			}
