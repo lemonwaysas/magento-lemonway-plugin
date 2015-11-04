@@ -23,7 +23,19 @@
  */
 class Sirateck_Lemonway_Block_Adminhtml_Moneyout extends Mage_Adminhtml_Block_Template
 {
-	protected $_wallet = null;
+	protected $_walletDetails = null;
+	
+	
+	protected function _prepareLayout(){
+		$this->setChild(
+				'submit_button',
+				$this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+						'label'     => Mage::helper('sirateck_lemonway')->__('Pay'),
+						'class'     => 'save submit-button',
+						'onclick'   => 'moneyoutForm.submit()',
+				))
+		);
+	}
 	
 	/**
 	 * Get page header text
@@ -62,19 +74,29 @@ class Sirateck_Lemonway_Block_Adminhtml_Moneyout extends Mage_Adminhtml_Block_Te
 	 */
 	public function canPayMoneyOut()
 	{
-		return true;
+		return !$this->getWalletDetails()->lwError && count($this->getWalletDetails()->wallet->getIbans());
 	}
 	
-	public function getWallet(){
-		if(is_null($this->_wallet))
+	public function formatPrice($price){
+		
+		return Mage::helper('core')->formatPrice($price);
+	}
+
+	
+	/**
+	 * @return Sirateck_Lemonway_Model_Apikit_Apiresponse
+	 */
+	public function getWalletDetails(){
+		if(is_null($this->_walletDetails))
 		{
 			$params = array("wallet"=>Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_id'),
 					"email"=>Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_email')
 			);
-			$this->_wallet = Sirateck_Lemonway_Model_Apikit_Kit::GetWalletDetails($params)->wallet;
+			$this->_walletDetails = Sirateck_Lemonway_Model_Apikit_Kit::GetWalletDetails($params);
+			
 		}
 		
-		return $this->_wallet;
+		return $this->_walletDetails;
 		
 	}
 	

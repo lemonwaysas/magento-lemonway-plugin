@@ -39,6 +39,75 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
              ->_title(Mage::helper('sirateck_lemonway')->__('MoneyOut'));
         $this->renderLayout();
     }
+    
+    public function  payPostAction(){
+    	
+    	if ($this->getRequest()->isPost()) {
+    		
+    		$iban = "";
+    		
+	    	$walletId= $this->getRequest()->getPost('wallet_id', false);
+	    	$bal= (float)$this->getRequest()->getPost('bal', 0);
+	    	$balFormated = Mage::helper("core")->formatPrice((float)$bal);
+	    	$ibanId = 0;
+	    	$ibanIds = $this->getRequest()->getPost('iban_id', array());
+			if(count($ibanIds) > 0)
+			{
+				$ibanId = current($ibanIds);
+				$iban = $this->getRequest()->getPost('iban_' . $ibanId, "");
+			}
+	    	$amountToPay = (float)str_replace(",", ".",$this->getRequest()->getPost('amountToPay', 0));
+	    	$amountFormated = Mage::helper("core")->formatPrice((float)$amountToPay);
+	    	
+	    	if($amountToPay > $bal)
+	    	{
+	    		$this->_getSession()->addError($this->__("You can't paid amount upper of your balance amount: %s ",$balFormated));
+	    		$this->_redirect("*/*/pay");
+	    		return $this;
+	    	}
+	    	
+	    	if($walletId && $ibanId && $amountToPay > 0 && $bal > 0)
+	    	{
+	    		try {
+	    			$params = array(
+	    					"wallet"=>$walletId,
+	    					"amountTot"=>sprintf("%.2f" ,$amountToPay),
+	    					"amountCom"=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getMethodInstance()->getConfigData('commission_amount'))),
+	    					"message"=>$this->__("Moneyout from Magento module"),
+	    					"ibanId"=>$ibanId,
+	    					"autCommission" => $this->getMethodInstance()->getConfigData('autocommission'),
+	    			);
+	    			$apiResponse = Sirateck_Lemonway_Model_Apikit_Kit::MoneyOut($params);
+	    			
+	    			if($apiResponse->lwError)
+	    				Mage::throwException($apiResponse->lwError->getMessage());
+	    			
+	    			if(count($apiResponse->operations))
+	    			{
+	    				/* @var $op Sirateck_Lemonway_Model_Apikit_Apimodels_Operation */
+	    				$op = $apiResponse->operations[0];
+	    				if($op->getHpayId())
+	    				{
+	    					
+		    				$this->_getSession()->addSuccess($this->__("You paid %s to your Iban %s from your wallet <b>%s</b>",$amountFormated,$iban,$walletId));
+	    				}
+	    				else {
+	    					Mage::throwException($this->__("An error occured. Please contact support."));
+	    				}
+	    			}
+	    			
+		    		
+	    		} catch (Exception $e) {
+	    			
+	    			Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+	    			
+	    		}
+
+    		}
+	    }
+	
+    	$this->_redirect('*/*/pay');
+    }
 
     /**
      * Check if admin has permissions to visit related pages
@@ -50,5 +119,13 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('sales/sirateck_lemonway/moneyout');
+    }
+    
+    /**
+     * 
+     * @return Sirateck_Lemonway_Model_Method_Webkit
+     */
+    protected function getMethodInstance(){
+    	return MAge::getSingleton('sirateck_lemonway/method_webkit');
     }
 }

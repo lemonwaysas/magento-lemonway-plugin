@@ -1,85 +1,41 @@
 <?php
+/**
+ * @method string getType() {p2p, moneyin, moneyout}
+ * @method int getHpayId() id lemonway
+ * @method string getLabelCode() IBAN or Card number
+ * @method string getSenderWallet()  sender wallet id
+ * @method string getReceiverWallet() receiver wallet id
+ * @method float getDebitAmount() amount debited from sender wallet
+ * @method float getCreditAmount() amount credited to receiver wallet or external bank account
+ * @method float getFees() fees automatically sent to merchant wallet
+ * @method string getMessage() comment
+ * @method int getStatus() {0,3,4}
+ * @method string getErrorMessage() internal error message with codes
+ * @method stdClass getExtra()  Detailed information regarding Card payment
+ * 
+ * @author kassim belghait
+ *
+ */
+class Sirateck_Lemonway_Model_Apikit_Apimodels_Operation extends Varien_Object {
 
-class Sirateck_Lemonway_Model_Apikit_Apimodels_Operation {
 
-	/**
-     * type {p2p, moneyin, moneyout}
-     * @var string
-     */
-    public $type;
 	
-	/**
-     * ID number
-     * @var string
-     */
-    public $ID;
-	
-	/**
-     * MLABEL iban number or card number
-     * @var string
-     */
-    public $MLABEL;
-	
-	/**
-     * SEN sender wallet (debited wallet)
-     * @var string
-     */
-	public $SEN;
-	
-	/**
-     * REC receiver wallet (credited wallet)
-     * @var string
-     */
-	public $REC;
-	
-	/**
-     * DEB debited amount, xx.xx
-     * @var string
-     */
-	public $DEB;
-	
-	/**
-     * CRED credited amount, xx.xx
-     * @var string
-     */
-	public $CRED;
-	
-	/**
-     * COM fees automatically sent to merchant wallet
-     * @var string
-     */
-	public $COM;
-	
-	/**
-     * MSG comment
-     * @var string
-     */
-	public $MSG;
-	
-	/**
-     * STATUS {0,3,4}
-     * @var string
-     */
-	public $STATUS;
-	
-	/**
-     * INT_MSG internal error message with codes
-     * @var string
-     */
-	public $INT_MSG;
-	
-	function __construct($hpayXmlArr) {
-		$hpayXml = $hpayXmlArr[0];
-		$this->ID = $hpayXml->ID;
-		$this->SEN = $hpayXml->SEN;
-		$this->REC = $hpayXml->REC;
-		$this->DEB = $hpayXml->DEB;
-		$this->CRED = $hpayXml->CRED;
-		$this->COM = $hpayXml->COM;
-		$this->STATUS = $hpayXml->STATUS;
-		$this->MLABEL = $hpayXml->MLABEL;
-		$this->INT_MSG = $hpayXml->INT_MSG;
-		$this->EXTRA = new EXTRA($hpayXml->EXTRA);
+	function __construct($hpayXmlArr = array()) {
+		if(count($hpayXmlArr))
+		{
+			
+			$hpayXml = $hpayXmlArr[0];
+			$this->_data['hpay_id'] = (int)$hpayXml->ID;
+			$this->_data['sender_wallet'] = (string)$hpayXml->SEN;
+			$this->_data['receiver_wallet'] = (string)$hpayXml->REC;
+			$this->_data['debit_amount'] = (float)$hpayXml->DEB;
+			$this->_data['credit_amount'] = (float)$hpayXml->CRED;
+			$this->_data['fees'] = (float)$hpayXml->COM;
+			$this->_data['status'] = (int)$hpayXml->STATUS;
+			$this->_data['label_code'] = (string)$hpayXml->MLABEL;
+			$this->_data['error_message'] = (string)$hpayXml->INT_MSG;
+			$this->_data['extra'] = new EXTRA($hpayXml->EXTRA);
+		}
 	}
 }
 

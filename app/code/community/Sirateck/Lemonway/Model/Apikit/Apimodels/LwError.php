@@ -1,21 +1,19 @@
 <?php
 
-class Sirateck_Lemonway_Model_Apikit_Apimodels_LwError{
+/**
+ * 
+ * @method string getMessage()
+ * @method int getCode()
+ *
+ */
+class Sirateck_Lemonway_Model_Apikit_Apimodels_LwError Extends Varien_Object{
 
-	/**
-     * CODE number
-     * @var string
-     */
-    public $CODE;
 	
-	/**
-     * MSG error message
-     * @var string
-     */
-    public $MSG;
-	
-	function __construct($arr) {
-		$this->CODE = $arr[0];
-		$this->MSG = $arr[1];
+	function __construct($arr = array()) {
+		if(count($arr) > 0)
+		{		
+			$this->_data['code'] = $arr[0];
+			$this->_data['message'] = $arr[1];
+		}
 	}
 }

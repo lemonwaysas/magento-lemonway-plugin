@@ -17,37 +17,37 @@ class Sirateck_Lemonway_Model_Apikit_Apiresponse{
 	
 	/**
      * lwError
-     * @var LwError
+     * @var Sirateck_Lemonway_Model_Apikit_Apimodels_LwError
      */
     public $lwError;
 	
 	/**
      * wallet
-     * @var Wallet
+     * @var Sirateck_Lemonway_Model_Apikit_Apimodels_Wallet
      */
     public $wallet;
 	
 	/**
      * operations
-     * @var array Operation
+     * @var array Sirateck_Lemonway_Model_Apikit_Apimodels_Operation
      */
     public $operations;
 	
 	/**
      * kycDoc
-     * @var KycDoc
+     * @var Sirateck_Lemonway_Model_Apikit_Apimodels_KycDoc
      */
     public $kycDoc;
 	
 	/**
      * iban
-     * @var Iban
+     * @var Sirateck_Lemonway_Model_Apikit_Apimodels_Iban
      */
     public $iban;
 	
 	/**
      * sddMandate
-     * @var SddMandate
+     * @var Sirateck_Lemonway_Model_Apikit_Apimodels_SddMandate
      */
     public $sddMandate;
 }
