@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Sirateck_Lemonway>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </Sirateck_Lemonway>
     </modules>
     <global>
@@ -131,6 +131,7 @@
 				<title>Lemonway payment</title>
 				<autocommission>1</autocommission>
 				<commission_amount></commission_amount>
+				<allow_oneclic>0</allow_oneclic>
 				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
 				<payment_action>initialize</payment_action>
 				<allowspecific>0</allowspecific>

@@ -46,5 +46,26 @@ class Sirateck_Lemonway_Block_Form_Webkit extends Mage_Payment_Block_Form
     {
     	return $this->getCheckout()->getQuote();
     }
+    
+    public function oneClicAllowed()
+    {
+    	$checkoutMethod = Mage::getSingleton('checkout/session')->getQuote()->getCheckoutMethod();
+    	
+    	if($checkoutMethod == Mage_Checkout_Model_Type_Onepage::METHOD_GUEST || !$this->getMethod()->getConfigData('allow_oneclic'))
+    		return false;
+    	
+    	return true;
+
+    }
+    
+    public function customerHasCardId()
+    {
+    	return $this->getCardId() != "";
+    }
+    
+    public function getCardId()
+    {
+    	return Mage::getSingleton('customer/session')->getCustomer()->getLwCardId();
+    }
 
 }

@@ -39,7 +39,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 		return self::sendRequest('MoneyIn3DConfirm', $params, '1.1');
 	}
 	public static function MoneyInWebInit($params) {
-		return self::sendRequest('MoneyInWebInit', $params, '1.2');
+		return self::sendRequest('MoneyInWebInit', $params, '1.3');
 	}
 	public static function RegisterCard($params) {
 		return self::sendRequest('RegisterCard', $params, '1.1');
