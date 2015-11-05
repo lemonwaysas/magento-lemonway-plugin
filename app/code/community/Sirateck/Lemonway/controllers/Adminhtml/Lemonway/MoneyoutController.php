@@ -35,7 +35,7 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
     public function payAction()
     {
         $this->loadLayout();
-        $this->_title(Mage::helper('sirateck_lemonway')->__('LW'))
+        $this->_title(Mage::helper('sirateck_lemonway')->__('Lemonway'))
              ->_title(Mage::helper('sirateck_lemonway')->__('MoneyOut'));
         $this->renderLayout();
     }
@@ -61,7 +61,7 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
 	    	
 	    	if($amountToPay > $bal)
 	    	{
-	    		$this->_getSession()->addError($this->__("You can't paid amount upper of your balance amount: %s ",$balFormated));
+	    		$this->_getSession()->addError($this->__("You can't paid amount upper of your balance amount: %s",$balFormated));
 	    		$this->_redirect("*/*/pay");
 	    		return $this;
 	    	}
@@ -92,7 +92,7 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
 		    				$this->_getSession()->addSuccess($this->__("You paid %s to your Iban %s from your wallet <b>%s</b>",$amountFormated,$iban,$walletId));
 	    				}
 	    				else {
-	    					Mage::throwException($this->__("An error occured. Please contact support."));
+	    					Mage::throwException($this->__("An error occurred. Please contact support."));
 	    				}
 	    			}
 	    			

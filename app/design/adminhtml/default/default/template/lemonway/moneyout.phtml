@@ -44,7 +44,7 @@
     </div>
     <div class="box">
     	<h5><?php echo $this->__("We can't retrieve your wallet!")?></h5> 
-    	<?php echo $this->__('<a href="%s">Please check your module configuration</a> or create your wallet in <a href="%s">Lemonway BO</a>. ',Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway")),"https://www.lemonway.fr/MbDev/bo") ?>
+    	<?php echo $this->__('<a href="%s">Please check your module configuration</a> or create your wallet in <a href="%s">Lemonway BO</a>.',Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway")),"https://www.lemonway.fr/MbDev/bo") ?>
     </div>
 <?php else : ?>
 <?php
@@ -131,7 +131,7 @@ $_wallet = $this->getWalletDetails()->wallet;
         <?php else:?>
         	<div class="box">
 		    	<h5><?php echo $this->__("You don't have any Iban!")?></h5> 
-		    	<?php echo $this->__('Please create at least one for wallet <b>%s</b> in <a href="%s">Lemonway BO </a>. ',$_wallet->getWalletId(),Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway")),"https://www.lemonway.fr/MbDev/bo") ?>
+		    	<?php echo $this->__('Please create at least one for wallet <b>%s</b> in <a href="%s">Lemonway BO </a>.',$_wallet->getWalletId(),Mage::helper("adminhtml")->getUrl('adminhtml/system_config/edit',array('section'=>"sirateck_lemonway")),"https://www.lemonway.fr/MbDev/bo") ?>
 		    </div>
         <?php endif; ?>
     </fieldset>

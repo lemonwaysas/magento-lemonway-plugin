@@ -10,7 +10,7 @@ $_code=$this->getMethodCode();
 	<?php if (!$this->customerHasCardId()) :?>
 			<div class="input-box">
 				<input id="<?php echo $_code ?>_register_card"  value="register_card"  type="checkbox" name="payment[oneclic]" />
-				<label style="float: none;" for="<?php echo $_code ?>_register_card"><?php echo $this->__('Record your card data for a next buy.') ?></label>
+				<label style="float: none;" for="<?php echo $_code ?>_register_card"><?php echo $this->__('Save your card data for a next buy.') ?></label>
 			</div>
 		<?php else :?>
 			
@@ -21,7 +21,7 @@ $_code=$this->getMethodCode();
 			
 			<div class="input-box">
 				<input id="<?php echo $_code ?>_register_card"  type="radio" name="payment[oneclic]" value="register_card"/>
-				<label style="float: none;" for="<?php echo $_code ?>_create_alias_oneclick"><?php echo $this->__('Record new card data') ?></label>
+				<label style="float: none;" for="<?php echo $_code ?>_create_alias_oneclick"><?php echo $this->__('Save new card data') ?></label>
 			</div>
 
 			<div class="input-box">
@@ -36,7 +36,9 @@ $_code=$this->getMethodCode();
  <br />
 <?php endif; ?>
 <div id="<?php echo $_code ?>_redirect_text">
-<?php echo $this->__('You will be redirect to payment page after you submit order.')?>
+<?php $_base_message = $this->__('You will be redirect to payment page after you submit order.') ?>
+<?php $_use_card_message = $this->__('Your order will be paid with your registered card after you submit order') ?>
+<?php echo $_base_message ?>
 </div>
 </div>
  <script type="text/javascript">
@@ -44,7 +46,7 @@ $_code=$this->getMethodCode();
 
  	      if($('<?php echo $_code ?>_use_card') != undefined && $('<?php echo $_code ?>_use_card').checked)
 		  {
-			 $('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $this->__('Your order will be paid with your registered card after you submit order')?>';
+			 $('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $_use_card_message ?>';
 		  }
  			
  	     
@@ -53,12 +55,12 @@ $_code=$this->getMethodCode();
 
 			if($('<?php echo $_code ?>_use_card').checked)
 			{
-				$('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $this->__('Your order will be paid with your registered card after you submit order')?>';
+				$('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $_use_card_message ?>';
 				
 			}
 			else
 			{
-				$('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $this->__('You will be redirect to payment page after you submit order.')?>';
+				$('<?php echo $_code ?>_redirect_text').innerHTML = '<?php echo $_base_message ?>';
 				
 			}
 		}
