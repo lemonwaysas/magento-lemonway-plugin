@@ -118,11 +118,11 @@
 		<sirateck_lemonway>
 			<lemonway_api>			
 				<api_pass backend_model="adminhtml/system_config_backend_encrypted"/>
-				<api_pass_test backend_model="adminhtml/system_config_backend_encrypted"/>
 				<!-- @TODO maybe auto-generate api urls -->
-				<directkit_uri>https://ws.lemonway.fr/mb/sirateck/dev/directkit/service.asmx</directkit_uri>
-				<directkit_json_uri>https://ws.lemonway.fr/mb/sirateck/dev/directkitjson/service.asmx</directkit_json_uri>
-				<webkit_uri>https://m.lemonway.fr/mb/sirateck/dev/</webkit_uri>
+				<directkit_url>https://ws.lemonway.fr/mb/{PN}/{MODE}/directkit/service.asmx</directkit_url>
+				<directkit_json_url>https://ws.lemonway.fr/mb/{PN}/{MODE}/directkitjson/service.asmx</directkit_json_url>
+				<webkit_url>https://m.lemonway.fr/mb/{PN}/{MODE}/</webkit_url>
+				<is_test_mode>0</is_test_mode>
 			</lemonway_api>
 		</sirateck_lemonway>
 		<payment>
@@ -135,7 +135,6 @@
 				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
 				<payment_action>initialize</payment_action>
 				<allowspecific>0</allowspecific>
-				<is_test_mode>0</is_test_mode>
 				<debug>0</debug>
 				<model>sirateck_lemonway/method_webkit</model>
 				<return_url>lemonway/payment/return</return_url>

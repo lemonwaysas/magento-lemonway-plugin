@@ -30,11 +30,11 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 	{
 		parent::preDispatch();
 		
-		Mage::log($this->getRequest()->getRequestedActionName(),null,"debug_ipn_lw.log");
+		/*Mage::log($this->getRequest()->getRequestedActionName(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getMethod(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getParams(),null,"debug_ipn_lw.log");
 		Mage::log($this->getRequest()->getPost(),null,"debug_ipn_lw.log");
-		
+		*/
 		$action = $this->getRequest()->getRequestedActionName();
 		if($this->getRequest()->isPost() && !$this->_validateOperation($action))
 		{
@@ -51,7 +51,10 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		
 		//call directkit to get Webkit Token
 		$params = array('transactionMerchantToken'=>$this->_getOrder()->getIncrementId());
-		$res = Sirateck_Lemonway_Model_Apikit_Kit::GetMoneyInTransDetails($params);
+		//Init APi kit
+		/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
+		$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
+		$res = $kit->GetMoneyInTransDetails($params);
 		
 		
 		if (isset($res->lwError)){

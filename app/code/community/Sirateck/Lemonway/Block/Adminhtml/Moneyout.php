@@ -89,10 +89,12 @@ class Sirateck_Lemonway_Block_Adminhtml_Moneyout extends Mage_Adminhtml_Block_Te
 	public function getWalletDetails(){
 		if(is_null($this->_walletDetails))
 		{
-			$params = array("wallet"=>Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_id'),
-					"email"=>Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_email')
+			/* @var $_helper Sirateck_Lemonway_Helper_Data */
+			$_helper = $this->helper('sirateck_lemonway');
+			$params = array("wallet"=>$_helper->getConfig()->getWalletMerchantId()
 			);
-			$this->_walletDetails = Sirateck_Lemonway_Model_Apikit_Kit::GetWalletDetails($params);
+			
+			$this->_walletDetails = Mage::getSingleton('sirateck_lemonway/apikit_kit')->GetWalletDetails($params);
 			
 		}
 		

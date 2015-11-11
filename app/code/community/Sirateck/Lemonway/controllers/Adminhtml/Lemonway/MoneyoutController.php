@@ -77,7 +77,10 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
 	    					"ibanId"=>$ibanId,
 	    					"autCommission" => $this->getMethodInstance()->getConfigData('autocommission'),
 	    			);
-	    			$apiResponse = Sirateck_Lemonway_Model_Apikit_Kit::MoneyOut($params);
+	    			//Init APi kit
+	    			/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
+	    			$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
+	    			$apiResponse = $kit->MoneyOut($params);
 	    			
 	    			if($apiResponse->lwError)
 	    				Mage::throwException($apiResponse->lwError->getMessage());

@@ -47,6 +47,7 @@
     protected $_supportedLangs = array('no', 'jp', 'ko', 'sp', 'fr', 'xz', 'ge', 'it', 'br', 'da', 'fi', 'sw', 'po', 'fl', 'ci', 'pl','ne');
     protected $_defaultLang    = 'en';
     
+    const IS_TEST_MODE = 'is_test_mode';
     
     
     
@@ -80,6 +81,11 @@
     public function initialize($paymentAction, $stateObject){
     	$useCard = (bool)$this->getInfoInstance()->getAdditionalInformation('use_card');
     	$registerCard = (bool)$this->getInfoInstance()->getAdditionalInformation('register_card');
+    	
+    	//Init APi kit
+    	/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
+    	$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
+    	
     	//We call MoneyInwebInit and save token in session
     	//Token is used in getOrderRedirectUrl method
     	if(!$useCard)
@@ -87,7 +93,7 @@
     		
 	    	//call directkit to get Webkit Token
 	    	$params = array('wkToken'=>$this->getOrder()->getIncrementId(),
-	    			'wallet'=> Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_id'),
+	    			'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
 	    			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
 	    			'amountCom'=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getConfigData('commission_amount'))),
 	    			'comment'=>'',
@@ -99,7 +105,10 @@
 	    			'useRegisteredCard'=>$registerCard || $useCard, //For payline
 	    	);
 	    	$this->_debug($params);
-	    	$res = Sirateck_Lemonway_Model_Apikit_Kit::MoneyInWebInit($params);
+	    	
+	    	
+	    	$res = $kit->MoneyInWebInit($params);
+	    	
 	    	$this->_debug($res);
 	
 	    	if (isset($res->lwError)){
@@ -133,7 +142,7 @@
     			//call directkit for MoneyInWithCardId
     			$params = array(
     					'wkToken'=>$this->getOrder()->getIncrementId(),
-    					'wallet'=> Mage::getStoreConfig('sirateck_lemonway/lemonway_api/wallet_merchant_id'),
+    					'wallet'=> $this->getHelper()->getConfig()->getWaleltMerchantId(),
     					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
     					'amountCom'=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getConfigData('commission_amount'))),
     					'message'=>Mage::helper('sirateck_lemonway')->__('Money In with Card Id for order #%s',$this->getOrder()->getIncrementId()),
@@ -145,7 +154,7 @@
     			);
     			
     			$this->_debug($params);
-    			$res = Sirateck_Lemonway_Model_Apikit_Kit::MoneyInWithCardId($params);
+    			$res = $kit->MoneyInWithCardId($params);
     			$this->_debug($res);
     			
     			if (isset($res->lwError)){
@@ -218,7 +227,7 @@
 	
 	    	$cssUrl = $this->getConfigData('css_url');
 	    	//Redirect to webkit page
-	    	return Mage::getStoreConfig('sirateck_lemonway/lemonway_api/webkit_uri') . "?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$this->getLang();
+	    	return $this->getHelper()->getConfig()->getWebkitUrl() . "?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$this->getLang();
     	}
     	
     	return false;
@@ -237,6 +246,13 @@
     		return $locale[0];
     	}
     	return $this->getDefaultLang();
+    }
+    
+    /**
+     * @return Sirateck_Lemonway_Helper_Data
+     */
+    public function getHelper(){
+    	return Mage::helper('sirateck_lemonway');
     }
 
     /*
