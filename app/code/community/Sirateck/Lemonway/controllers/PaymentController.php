@@ -25,6 +25,11 @@
 class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Action {
 	
 	protected $_order = null;
+	/**
+	 * 
+	 * @var Sirateck_Lemonway_Model_Apikit_Apimodels_Operation
+	 */
+	protected $_moneyin_trans_details = null;
 	
 	public function preDispatch()
 	{
@@ -49,30 +54,36 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		if(!isset($actionToStatus[$action]))
 			return false;
 		
-		//call directkit to get Webkit Token
-		$params = array('transactionMerchantToken'=>$this->_getOrder()->getIncrementId());
-		//Init APi kit
-		/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
-		$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
-		$res = $kit->GetMoneyInTransDetails($params);
-		
-		
-		if (isset($res->lwError)){
-			Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
-		}
-		
-		/* @var $op Sirateck_Lemonway_Model_Apikit_Apimodels_Operation */
-		foreach ($res->operations as $op) {
-			
-			if($op->getStatus() == $actionToStatus[$action])
-			{
-				return true;
-			}
-			
-		}
+		if($this->getMoneyInTransDetails()->getStatus() == $actionToStatus[$action])
+			return true;
 		
 		return false;
 		
+	}
+	
+	/**
+	 * Call api to get transaction detail for this transaction
+	 * @return Sirateck_Lemonway_Model_Apikit_Apimodels_Operation
+	 */
+	protected function getMoneyInTransDetails()
+	{
+		if(is_null($this->_moneyin_trans_details))
+		{
+			//call directkit to get Webkit Token
+			$params = array('transactionMerchantToken'=>$this->_getOrder()->getIncrementId());
+			//Init APi kit
+			/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
+			$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
+			$res = $kit->GetMoneyInTransDetails($params);
+			
+			if (isset($res->lwError)){
+				Mage::throwException("Error code: " . $res->lwError->getCode() . " Message: " . $res->lwError->getMessage());
+			}
+			
+			$this->_moneyin_trans_details = current($res->operations);
+			
+		}
+		return $this->_moneyin_trans_details;
 	}
 	
 	/**
@@ -178,6 +189,17 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 				$this->createInvoice($order);
 				
 				$order->save();
+				
+				$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
+				if($customer->getId())
+				{
+					$customer->setLwCardType($this->getMoneyInTransDetails()->getExtra()->TYP);
+					$customer->setLwCardNum($this->getMoneyInTransDetails()->getExtra()->NUM);
+					$customer->setLwCardExp($this->getMoneyInTransDetails()->getExtra()->EXP);
+					$customer->getResource()->saveAttribute($customer, 'lw_card_type');
+					$customer->getResource()->saveAttribute($customer, 'lw_card_num');
+					$customer->getResource()->saveAttribute($customer, 'lw_card_exp');
+				}
 			}
 			else{
 				$this->_forward('error');

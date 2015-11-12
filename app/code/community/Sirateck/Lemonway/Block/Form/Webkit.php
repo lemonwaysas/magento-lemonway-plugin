@@ -47,6 +47,13 @@ class Sirateck_Lemonway_Block_Form_Webkit extends Mage_Payment_Block_Form
     	return $this->getCheckout()->getQuote();
     }
     
+    /**
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getCustomer(){
+    	return Mage::getSingleton('customer/session')->getCustomer();
+    }
+    
     public function oneClicAllowed()
     {
     	$checkoutMethod = Mage::getSingleton('checkout/session')->getQuote()->getCheckoutMethod();
@@ -65,7 +72,21 @@ class Sirateck_Lemonway_Block_Form_Webkit extends Mage_Payment_Block_Form
     
     public function getCardId()
     {
-    	return Mage::getSingleton('customer/session')->getCustomer()->getLwCardId();
+    	return $this->getCustomer()->getLwCardId();
     }
+    
+    public function getCardNum(){
+    	return $this->getCustomer()->getLwCardNum();
+    }
+    
+    public function getCardType(){
+    	return $this->getCustomer()->getLwCardType();
+    }
+    
+    public function getCardExp(){
+    	return $this->getCustomer()->getLwCardExp();
+    }
+    
+    
 
 }

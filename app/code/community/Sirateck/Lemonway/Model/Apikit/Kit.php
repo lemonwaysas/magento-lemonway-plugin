@@ -87,7 +87,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 		return $res;
 	}
 	public function GetMoneyInTransDetails($params) {
-		$res = $this->sendRequest('GetMoneyInTransDetails', $params, '1.6');
+		$res = $this->sendRequest('GetMoneyInTransDetails', $params, '1.8');
 		if (!isset($res->lwError)){
 			$res->operations = array();
 			foreach ($res->lwXml->TRANS->HPAY as $HPAY){
@@ -259,6 +259,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 	}
 	
 	public function printCardForm($moneyInToken, $cssUrl = '', $language = 'fr'){
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $this->getConfig()->getWebkitUrl()."?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$language);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

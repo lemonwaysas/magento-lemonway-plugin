@@ -11,7 +11,7 @@
  * @method string getMessage() comment
  * @method int getStatus() {0,3,4}
  * @method string getErrorMessage() internal error message with codes
- * @method stdClass getExtra()  Detailed information regarding Card payment
+ * @method EXTRA getExtra()  Detailed information regarding Card payment
  * 
  * @author kassim belghait
  *
@@ -61,9 +61,33 @@ class EXTRA{
      */
 	public $AUTH;
 	
+	/**
+	 * Number of registered card
+	 * @var string
+	 * @since api version 1.8
+	 */
+	public $NUM;
+	
+	/**
+	 * Expiration date of registered card
+	 * @var string
+	 * @since api version 1.8
+	 */
+	public $EXP;
+
+	/**
+	 * Type of card
+	 * @var string
+	 * @since api version 1.8
+	 */
+	public $TYP;
+	
 	function __construct($extraXml) {
 		$this->AUTH = $extraXml->AUTH;
 		$this->IS3DS = $extraXml->IS3DS;
 		$this->CTRY = $extraXml->CTRY;
+		$this->NUM = $extraXml->NUM;
+		$this->EXP = $extraXml->EXP;
+		$this->TYP = $extraXml->TYP;
 	}
 }

@@ -18,6 +18,13 @@ $_code=$this->getMethodCode();
 				<input id="<?php echo $_code ?>_use_card" value="use_card" checked="checked" type="radio" name="payment[oneclic]"  checked/>
 				<label style="float: none;" for="<?php echo $_code ?>_use_card"><?php echo $this->__('Use my recorded card') ?></label>
 			</div>
+			<div class="input-box info-card">
+				<label><?php echo $this->__('Actual card') ?> :</label>
+				<span><?php echo $this->getCardNum() ?></span>
+			</div>
+			<div class="input-box info-card">
+				<label><?php echo $this->__('Expiration date') ?> : <?php echo $this->getCardExp() ?></label>
+			</div>
 			
 			<div class="input-box">
 				<input id="<?php echo $_code ?>_register_card"  type="radio" name="payment[oneclic]" value="register_card"/>

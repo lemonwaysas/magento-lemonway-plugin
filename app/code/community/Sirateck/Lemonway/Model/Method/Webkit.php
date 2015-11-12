@@ -226,8 +226,10 @@
 	    	$this->_getCheckout()->unsMoneyInToken();
 	
 	    	$cssUrl = $this->getConfigData('css_url');
+	    	$redirectUrl = $this->getHelper()->getConfig()->getWebkitUrl() . "?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$this->getLang();
+	    	Mage::log($redirectUrl,null,"debug_lw.log");
 	    	//Redirect to webkit page
-	    	return $this->getHelper()->getConfig()->getWebkitUrl() . "?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$this->getLang();
+	    	return $redirectUrl;
     	}
     	
     	return false;
