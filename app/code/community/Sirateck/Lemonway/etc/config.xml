@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Sirateck_Lemonway>
-            <version>0.1.3</version>
+            <version>0.1.4</version>
         </Sirateck_Lemonway>
     </modules>
     <global>
@@ -118,10 +118,10 @@
 		<sirateck_lemonway>
 			<lemonway_api>			
 				<api_pass backend_model="adminhtml/system_config_backend_encrypted"/>
-				<!-- @TODO maybe auto-generate api urls -->
-				<directkit_url>https://ws.lemonway.fr/mb/{PN}/{MODE}/directkit/service.asmx</directkit_url>
-				<directkit_json_url>https://ws.lemonway.fr/mb/{PN}/{MODE}/directkitjson/service.asmx</directkit_json_url>
-				<webkit_url>https://m.lemonway.fr/mb/{PN}/{MODE}/</webkit_url>
+				<directkit_url></directkit_url>
+				<webkit_url></webkit_url>
+				<directkit_url_test></directkit_url_test>
+				<webkit_url_test></webkit_url_test>
 				<is_test_mode>0</is_test_mode>
 			</lemonway_api>
 		</sirateck_lemonway>

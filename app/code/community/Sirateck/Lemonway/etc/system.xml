@@ -19,14 +19,15 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                    	 <api_platform_name translate="label">
-                    		<label>Api platform name</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                    	</api_platform_name>
+<!--                     	@deprecated since version 0.1.3 -->
+<!--                     	 <api_platform_name translate="label"> -->
+<!--                     		<label>Api platform name</label> -->
+<!--                             <frontend_type>text</frontend_type> -->
+<!--                             <sort_order>1</sort_order> -->
+<!--                             <show_in_default>1</show_in_default> -->
+<!--                             <show_in_website>1</show_in_website> -->
+<!--                             <show_in_store>0</show_in_store> -->
+<!--                     	</api_platform_name> -->
                     	 <api_login translate="label">
                     		<label>Production Api login</label>
                             <frontend_type>text</frontend_type>
@@ -52,7 +53,43 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </wallet_merchant_id>   
+                        </wallet_merchant_id>
+                        <directkit_url translate="label comment">
+                        	<label>Directkit Url</label>
+                        	<comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </directkit_url>
+                         <webkit_url translate="label comment">
+                        	<label>Webkit Url</label>
+                        	<comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </webkit_url>
+                        <directkit_url_test translate="label comment">
+                        	<label>Directkit Url Test</label>
+                        	<comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </directkit_url_test>
+                         <webkit_url_test translate="label comment">
+                        	<label>Webkit Url Test</label>
+                        	<comment></comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </webkit_url_test>
                          <is_test_mode translate="label comment">
                         	<label>Enable test mode</label>
                         	<comment>Call requests in test API Endpoint</comment>

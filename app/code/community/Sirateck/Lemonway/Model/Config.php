@@ -30,6 +30,8 @@ class Sirateck_Lemonway_Model_Config extends Varien_Object
 	const WALLET_MERCHANT_ID = 'wallet_merchant_id';
 	const DIRECTKIT_URL = "directkit_url";
 	const WEBKIT_URL = 'webkit_url';
+	const DIRECTKIT_URL_TEST = "directkit_url_test";
+	const WEBKIT_URL_TEST = 'webkit_url_test';
 	const IS_TEST_MODE = 'is_test_mode';
 	const MODE_TEST = 'dev';
 	const MODE_PROD = 'prod';
@@ -72,6 +74,7 @@ class Sirateck_Lemonway_Model_Config extends Varien_Object
 	}
 	
 	/**
+	 * @deprecated since version 0.1.3
 	 * Return platform name for construct api urls
 	 * @param string $storeId
 	 * @return string
@@ -119,6 +122,11 @@ class Sirateck_Lemonway_Model_Config extends Varien_Object
 		return $this->getConfigFlag(self::IS_TEST_MODE);
 	}
 	
+	/**
+	 * @deprecated since version 0.1.3
+	 * @param string $storeId
+	 * @return string $mode
+	 */
 	public function getMode($storeId=null){
 		if($this->isTestMode($storeId)) return self::MODE_TEST;
 		
@@ -127,15 +135,21 @@ class Sirateck_Lemonway_Model_Config extends Varien_Object
 	
 	public function getDirectkitUrl($storeId=null){
 		
-		$raw_url = $this->getConfigData(self::DIRECTKIT_URL,$storeId);	
-		return str_replace(array("{PN}","{MODE}"), array($this->getApiPlatformName($storeId),$this->getMode($storeId)), $raw_url);
+		$url = $this->getConfigData(self::DIRECTKIT_URL,$storeId);	
+		if($this->isTestMode($storeId))
+			$url = $this->getConfigData(self::DIRECTKIT_URL_TEST,$storeId);	
+		
+		return $url;
 		
 	}
 	
 	public function getWebkitUrl($storeId=null){
 		
-		$raw_url = $this->getConfigData(self::WEBKIT_URL,$storeId);	
-		return str_replace(array("{PN}","{MODE}"), array($this->getApiPlatformName($storeId),$this->getMode($storeId)), $raw_url);
+		$url = $this->getConfigData(self::WEBKIT_URL,$storeId);	
+		if($this->isTestMode($storeId))
+			$url = $this->getConfigData(self::WEBKIT_URL_TEST,$storeId);
+		
+		return $url;
 	
 	}
 	

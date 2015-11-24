@@ -132,4 +132,8 @@
 "Card type (one clic)","Type de carte enregistrée"
 "Actual card","Carte enregistrée"
 "Expiration date","Date expiration"
+"Webkit Url","Url du service Webkit"
+"Directkit Url","Url du service Directkit"
+"Directkit Url Test","Url de test du service Directkit"
+"Webkit Url Test","Url de test du service Webkit"
 
