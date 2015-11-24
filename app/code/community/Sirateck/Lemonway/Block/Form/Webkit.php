@@ -79,6 +79,11 @@ class Sirateck_Lemonway_Block_Form_Webkit extends Mage_Payment_Block_Form
     	return $this->getCustomer()->getLwCardNum();
     }
     
+    public function customerHasCardNum()
+    {
+    	return $this->getCardNum() != "";
+    }
+    
     public function getCardType(){
     	return $this->getCustomer()->getLwCardType();
     }
