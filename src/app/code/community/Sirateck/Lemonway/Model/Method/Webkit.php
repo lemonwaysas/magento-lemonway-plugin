@@ -95,12 +95,12 @@
 	    	$params = array('wkToken'=>$this->getOrder()->getIncrementId(),
 	    			'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
 	    			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
-	    			'amountCom'=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getConfigData('commission_amount'))),
+	    			'amountCom'=>sprintf("%.2f" ,(float)0),
 	    			'comment'=>'',
 	    			'returnUrl'=>urlencode(Mage::getUrl($this->getConfigData('return_url'))),
 	    			'cancelUrl'=>urlencode(Mage::getUrl($this->getConfigData('cancel_url'))),
 	    			'errorUrl'=>urlencode(Mage::getUrl($this->getConfigData('error_url'))),
-	    			'autoCommission'=>$this->getConfigData('autocommission'),
+	    			'autoCommission'=>0,
 	    			'registerCard'=>$registerCard, //For Atos
 	    			'useRegisteredCard'=>$registerCard || $useCard, //For payline
 	    	);
@@ -144,9 +144,9 @@
     					'wkToken'=>$this->getOrder()->getIncrementId(),
     					'wallet'=> $this->getHelper()->getConfig()->getWaleltMerchantId(),
     					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
-    					'amountCom'=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getConfigData('commission_amount'))),
+    					'amountCom'=>sprintf("%.2f" ,(float)0),
     					'message'=>Mage::helper('sirateck_lemonway')->__('Money In with Card Id for order #%s',$this->getOrder()->getIncrementId()),
-    					'autoCommission'=>$this->getConfigData('autocommission'),
+    					'autoCommission'=>0,
     					'cardId'=>$cardId, 
     					'isPreAuth'=>0, 
     					'specialConfig'=>'',

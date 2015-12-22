@@ -72,10 +72,10 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
 	    			$params = array(
 	    					"wallet"=>$walletId,
 	    					"amountTot"=>sprintf("%.2f" ,$amountToPay),
-	    					"amountCom"=>sprintf("%.2f" ,(float)str_replace(",",".",$this->getMethodInstance()->getConfigData('commission_amount'))),
+	    					"amountCom"=>sprintf("%.2f" ,(float)0),
 	    					"message"=>$this->__("Moneyout from Magento module"),
 	    					"ibanId"=>$ibanId,
-	    					"autCommission" => $this->getMethodInstance()->getConfigData('autocommission'),
+	    					"autoCommission" => 0,
 	    			);
 	    			//Init APi kit
 	    			/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */

@@ -26,7 +26,7 @@ class Sirateck_Lemonway_Model_Apikit_Apimodels_Wallet extends Varien_Object{
 			$this->_data['kyc_docs'] = array();
 			if (isset($WALLET->DOCS))
 				foreach ($WALLET->DOCS->DOC as $DOC){
-					$this->_data['kyc_docs'][] = Mage::getModel('sirateck_lemonway/apikit_apimodels_kyDoc',array($DOC));//new KycDoc($DOC);
+					$this->_data['kyc_docs'][] = Mage::getModel('sirateck_lemonway/apikit_apimodels_kycDoc',array($DOC));//new KycDoc($DOC);
 				}
 			$this->_data['ibans'] = array();
 			if (isset($WALLET->IBANS))

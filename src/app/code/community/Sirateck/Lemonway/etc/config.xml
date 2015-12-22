@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Sirateck_Lemonway>
-            <version>0.1.4</version>
+            <version>0.1.5</version>
         </Sirateck_Lemonway>
     </modules>
     <global>
@@ -52,6 +52,12 @@
                     <wallet>
                         <table>sirateck_lemonway_wallet</table>
                     </wallet>
+                    <iban>
+                        <table>sirateck_lemonway_iban</table>
+                    </iban>
+                    <moneyout>
+                        <table>sirateck_lemonway_moneyout</table>
+                    </moneyout>
                 </entities>
             </sirateck_lemonway_resource>
         </models>
@@ -129,8 +135,6 @@
 			<lemonway_webkit>
 				<active>0</active>
 				<title>Lemonway payment</title>
-				<autocommission>1</autocommission>
-				<commission_amount></commission_amount>
 				<allow_oneclic>0</allow_oneclic>
 				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
 				<payment_action>initialize</payment_action>

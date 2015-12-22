@@ -109,7 +109,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 	public function UploadFile($params) {
 		$res = $this->sendRequest('UploadFile', $params, '1.1');
 		if (!isset($res->lwError)){
-			$res->kycDoc = Mage::getModel('sirateck_lemonway/apikit_apimodels_kyDoc',array($res->lwXml->UPLOAD));;//new KycDoc($res->lwXml->UPLOAD);
+			$res->kycDoc = Mage::getModel('sirateck_lemonway/apikit_apimodels_kycDoc',array($res->lwXml->UPLOAD));;//new KycDoc($res->lwXml->UPLOAD);
 		}
 		return $res;
 	}
@@ -229,7 +229,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 				
 				curl_close($ch);
 
-				$apiResponse = Mage::getSingleton('sirateck_lemonway/apikit_apiresponse',array($content)); 
+				$apiResponse = Mage::getModel('sirateck_lemonway/apikit_apiresponse',array($content)); 
 				return $apiResponse;
 				
 			case 400:

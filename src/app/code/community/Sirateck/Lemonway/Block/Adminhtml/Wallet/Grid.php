@@ -133,7 +133,7 @@ class Sirateck_Lemonway_Block_Adminhtml_Wallet_Grid extends Mage_Adminhtml_Block
 
             )
         );
-        $this->addColumn(
+       /*  $this->addColumn(
             'customer_prefix',
             array(
                 'header' => Mage::helper('sirateck_lemonway')->__('Prefix'),
@@ -340,7 +340,7 @@ class Sirateck_Lemonway_Block_Adminhtml_Wallet_Grid extends Mage_Adminhtml_Block
                 )
 
             )
-        );
+        ); */
         $this->addColumn(
             'created_at',
             array(

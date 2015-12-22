@@ -15,29 +15,23 @@
  * @license        http://opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * Wallet admin block
+ * Moneyout resource model
  *
  * @category    Sirateck
  * @package     Sirateck_Lemonway
  * @author Kassim Belghait kassim@sirateck.com
  */
-class Sirateck_Lemonway_Block_Adminhtml_Wallet extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Sirateck_Lemonway_Model_Resource_Moneyout extends Mage_Core_Model_Resource_Db_Abstract
 {
+
     /**
      * constructor
      *
      * @access public
-     * @return void
      * @author Kassim Belghait kassim@sirateck.com
      */
-    public function __construct()
+    public function _construct()
     {
-        $this->_controller         = 'adminhtml_wallet';
-        $this->_blockGroup         = 'sirateck_lemonway';
-        parent::__construct();
-        $this->_headerText         = Mage::helper('sirateck_lemonway')->__('Wallet');
-        $this->_removeButton('add');
-        //$this->_updateButton('add', 'label', Mage::helper('sirateck_lemonway')->__('Add Wallet'));
-
+        $this->_init('sirateck_lemonway/moneyout', 'moneyout_id');
     }
 }
