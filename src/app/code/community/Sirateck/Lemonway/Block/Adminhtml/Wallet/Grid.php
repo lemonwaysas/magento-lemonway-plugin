@@ -81,16 +81,18 @@ class Sirateck_Lemonway_Block_Adminhtml_Wallet_Grid extends Mage_Adminhtml_Block
             )
         );
         
+       /* $options = array();
+        foreach (Sirateck_Lemonway_Model_Wallet::$statuesLabel as $key=>$label){
+        	$options[$key] = Mage::helper('sirateck_lemonway')->__($label);
+        }
+        
         $this->addColumn(
             'status',
             array(
                 'header'  => Mage::helper('sirateck_lemonway')->__('Status'),
                 'index'   => 'status',
                 'type'    => 'options',
-                'options' => array(
-                    '1' => Mage::helper('sirateck_lemonway')->__('Enabled'),
-                    '0' => Mage::helper('sirateck_lemonway')->__('Disabled'),
-                )
+                'options' => $options
             )
         );
         $this->addColumn(
@@ -101,7 +103,7 @@ class Sirateck_Lemonway_Block_Adminhtml_Wallet_Grid extends Mage_Adminhtml_Block
                 'type'=> 'text',
 
             )
-        );
+        );*/
         $this->addColumn(
             'customer_id',
             array(
