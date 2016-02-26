@@ -135,6 +135,8 @@
 			<lemonway_webkit>
 				<active>0</active>
 				<title>Lemonway payment</title>
+				<order_status>pending</order_status>
+				<order_status_success>processing</order_status_success>
 				<allow_oneclic>0</allow_oneclic>
 				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
 				<payment_action>initialize</payment_action>

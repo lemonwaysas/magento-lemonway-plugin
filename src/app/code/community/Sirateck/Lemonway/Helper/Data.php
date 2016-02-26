@@ -75,4 +75,12 @@ class Sirateck_Lemonway_Helper_Data extends Mage_Core_Helper_Abstract
     public function getConfig(){
     	return Mage::getSingleton('sirateck_lemonway/config');
     }
+    
+    /**
+     * 
+     * @return boolean
+     */
+    public function oneStepCheckoutInstalled(){
+    	return Mage::getStoreConfigFlag('onestepcheckout/general/enabled');
+    }
 }
