@@ -34,12 +34,7 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 	public function preDispatch()
 	{
 		parent::preDispatch();
-		
-		/*Mage::log($this->getRequest()->getRequestedActionName(),null,"debug_ipn_lw.log");
-		Mage::log($this->getRequest()->getMethod(),null,"debug_ipn_lw.log");
-		Mage::log($this->getRequest()->getParams(),null,"debug_ipn_lw.log");
-		Mage::log($this->getRequest()->getPost(),null,"debug_ipn_lw.log");
-		*/
+	
 		$action = $this->getRequest()->getRequestedActionName();
 		if($this->getRequest()->isPost() && !$this->_validateOperation($action))
 		{
@@ -166,8 +161,11 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		$params = $this->getRequest()->getParams();
 		if($this->getRequest()->isGet())
 		{
-
-			$this->_redirect('checkout/onepage/success');
+			$successUrl = 'checkout/onepage/success';
+			if(Mage::helper('sirateck_lemonway')->oneStepCheckoutInstalled()){
+				$successUrl = 'onestepcheckout/index/success';
+			}
+			$this->_redirect($successUrl);
 
 			return $this;
 		}
@@ -176,19 +174,31 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 			if($params['response_code'] == "0000")
 			{
 				
-				$message = $this->__('Transaction success.');
-				
 				//DATA POST FROM NOTIFICATION
 				$order = $this->_getOrder();
-				$status = $order->getStatus();
-				$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true, $message);
-				if (!$order->getEmailSent()) {
+				$payment = $order->getPayment();
+				$payment->registerCaptureNotification(
+						$params['response_transactionAmount'],
+						false
+						);
+				$order->save();
+				
+				// notify customer
+				$invoice = $payment->getCreatedInvoice();
+				if ($invoice && !$order->getEmailSent()) {
 					$order->sendNewOrderEmail();
 				}
 				
-				$this->createInvoice($order);
+				$methodInstance = Mage::getSingleton('sirateck_lemonway/method_webkit');
+				if (!$status = $methodInstance->getConfigData('order_status_success')) {
+					$status = $order->getStatus();
+				}
+
+				$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, $status);
 				
 				$order->save();
+				
+				
 				
 				$customer = Mage::getModel('customer/customer')->load($order->getCustomerId());
 				if($customer->getId())
