@@ -156,8 +156,12 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		return false;
 	}
 	
-	
+	/**
+	 * Success Action
+	 * Used for redirection and notification process
+	 */
 	public function returnAction(){
+		
 		$params = $this->getRequest()->getParams();
 		if($this->getRequest()->isGet())
 		{
@@ -171,6 +175,7 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		}
 		elseif($this->getRequest()->isPost())
 		{
+			
 			if($params['response_code'] == "0000")
 			{
 				
@@ -223,8 +228,11 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		
 	}
 	
+	/**
+	 * Transaction canceled by user
+	 */
 	public function cancelAction(){
-		
+
 		//When canceled by user, notification by POST not sended
 		//So we cancel with get request
 		if($this->getRequest()->isGet())
@@ -258,40 +266,36 @@ class Sirateck_Lemonway_PaymentController extends Mage_Core_Controller_Front_Act
 		
 	}
 	
+	/**
+	 * Transaction Failure action.
+	 */
 	public function errorAction(){
 		
+		//When transaction failed, notification by POST not sended
+		//So we cancel the order with GET request
 		if($this->getRequest()->isGet())
 		{
-			$this->_redirect('checkout/onepage/failure');
-			return $this;
-		}
-		elseif($this->getRequest()->isPost())
-		{
-
-			$post = $this->getRequest()->getPost();
-				
 			//DATA POST FROM NOTIFICATION
 			$order = $this->_getOrder();
-				
-			$status = $order->getStatus();
-			$res_message = $post['response_msg'];
-			//$res_code = $post['response_code'];
-			$order->addStatusToHistory($status, $res_message);
 			
-			$message = $this->__('Transaction was canceled.');
-			$order->addStatusToHistory($status, $message);
-				
 			if($order->canCancel())
 			{
 				$order->cancel();
 			}
+			
+			$status = $order->getStatus();
+			$message = $this->__('Transaction Failed. Order was canceled automatically.');
+			$order->addStatusToHistory($status, $message);
+			
 			try {
-				
-			$order->save();
+				$order->save();
 			} catch (Exception $e) {
 				Mage::logException($e);
 				Mage::throwException($e->getMessage());
 			}
+			
+			$this->_redirect('checkout/onepage/failure');
+			return $this;
 		}
 		else
 		{
