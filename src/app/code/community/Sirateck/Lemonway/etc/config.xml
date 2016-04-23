@@ -120,6 +120,14 @@
             </adminhtml>
         </routers>
     </admin>
+    <crontab>
+		<jobs>
+			<clean_orders_lw_in_pending>
+				<schedule><cron_expr>*/15 * * * *</cron_expr></schedule>
+				<run><model>sirateck_lemonway/observer::cancelOrdersInPending</model></run>
+			</clean_orders_lw_in_pending>
+		</jobs>
+	</crontab>
     <default>
 		<sirateck_lemonway>
 			<lemonway_api>			
@@ -139,6 +147,7 @@
 				<order_status_success>processing</order_status_success>
 				<allow_oneclic>0</allow_oneclic>
 				<css_url>https://www.lemonway.fr/mercanet_lw.css</css_url>
+				<cancel_pending_order>0</cancel_pending_order>
 				<payment_action>initialize</payment_action>
 				<allowspecific>0</allowspecific>
 				<debug>0</debug>

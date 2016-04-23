@@ -149,4 +149,7 @@
 "Residence permit","Carte de séjour"
 "Kbis","Kbis"
 "Miscellaneous","Divers"
-
+"Cancel orders in pendind status","Annule les commandes au statut ""en attente"""
+"Cancel orders in pending status since more 30 minutes. Useful when a customer don't send his credit card information in hosted page.","Annule les commandes au statut ""en attente"" depuis plus de 30 minutes. Utile quand les clients ne valident pas le formulaire de saisie bancaire."
+"Order canceled automatically by cron because order is pending since %d minutes","Commande annulée automatiquement par la tâche planifiée car la commande était en attente depuis plus de %s minutes"
+"Transaction Failed. Order was canceled automatically.","Échec de transaction. Commande annulée automatiquement."
