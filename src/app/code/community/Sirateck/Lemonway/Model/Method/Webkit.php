@@ -86,6 +86,17 @@
     	/* @var $kit Sirateck_Lemonway_Model_Apikit_Kit */
     	$kit = Mage::getSingleton('sirateck_lemonway/apikit_kit');
     	
+    	$amountCom = 0;
+    	if(!Mage::helper('core')->isModuleEnabled('Sirateck_Lemonwaymkt')){
+    		$amountCom = $this->getOrder()->getGrandTotal();
+    	}
+    	else{
+    		$seller_totals = Mage::helper('lemonwaymkt')->getOrderCommissionDetails($this->getOrder());
+    		if($seller_totals->getTotalSellerAmount() > 0){
+    			$amountCom = $this->getOrder()->getGrandTotal() - ($seller_totals->getTotalSellerAmount() + $seller_totals->getTotalCommision());
+    		}
+    	}
+    	
     	//We call MoneyInwebInit and save token in session
     	//Token is used in getOrderRedirectUrl method
     	if(!$useCard)
@@ -95,7 +106,7 @@
 	    	$params = array('wkToken'=>$this->getOrder()->getIncrementId(),
 	    			'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
 	    			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
-	    			'amountCom'=>sprintf("%.2f" ,(float)0),
+	    			'amountCom'=>sprintf("%.2f" ,(float)$amountCom),
 	    			'comment'=>'',
 	    			'returnUrl'=>urlencode(Mage::getUrl($this->getConfigData('return_url'))),
 	    			'cancelUrl'=>urlencode(Mage::getUrl($this->getConfigData('cancel_url'))),
@@ -144,7 +155,7 @@
     					'wkToken'=>$this->getOrder()->getIncrementId(),
     					'wallet'=> $this->getHelper()->getConfig()->getWaleltMerchantId(),
     					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
-    					'amountCom'=>sprintf("%.2f" ,(float)0),
+    					'amountCom'=>sprintf("%.2f" ,(float)$amountCom),
     					'message'=>Mage::helper('sirateck_lemonway')->__('Money In with Card Id for order #%s',$this->getOrder()->getIncrementId()),
     					'autoCommission'=>0,
     					'cardId'=>$cardId, 
