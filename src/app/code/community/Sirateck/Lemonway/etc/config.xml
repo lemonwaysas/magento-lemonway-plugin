@@ -19,7 +19,7 @@
 <config>
     <modules>
         <Sirateck_Lemonway>
-            <version>0.1.8</version>
+            <version>0.1.9</version>
         </Sirateck_Lemonway>
     </modules>
     <global>
