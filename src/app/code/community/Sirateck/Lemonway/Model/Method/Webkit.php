@@ -88,14 +88,19 @@
     	
     	$amountCom = 0;
     	if(!Mage::helper('core')->isModuleEnabled('Sirateck_Lemonwaymkt')){
-    		$amountCom = $this->getOrder()->getGrandTotal();
+    		$amountCom = $this->getOrder()->getBaseGrandTotal();
     	}
     	else{
     		$seller_totals = Mage::helper('lemonwaymkt')->getOrderCommissionDetails($this->getOrder());
-    		if($seller_totals->getTotalSellerAmount() > 0){
-    			$amountCom = $this->getOrder()->getGrandTotal() - ($seller_totals->getTotalSellerAmount() + $seller_totals->getTotalCommision());
+    		if($seller_totals->getTotalSellerAmount() > 0 && !Mage::getStoreConfigFlag('sirateck_lemonway/lemonwaymkt/include_shipping')){
+    			$amountCom = $this->getOrder()->getBaseGrandTotal() - ($seller_totals->getTotalSellerAmount() + $seller_totals->getTotalCommision());
     		}
     	}
+    	
+    	$comment = Mage::helper('sirateck_lemonway')->__("Order #%s by %s %s %s",$this->getOrder()->getIncrementId(),
+																    			$this->getOrder()->getCustomerLastname(),
+																    			$this->getOrder()->getCustomerFirstname(),
+																    			$this->getOrder()->getCustomerEmail());
     	
     	//We call MoneyInwebInit and save token in session
     	//Token is used in getOrderRedirectUrl method
@@ -105,9 +110,9 @@
 	    	//call directkit to get Webkit Token
 	    	$params = array('wkToken'=>$this->getOrder()->getIncrementId(),
 	    			'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
-	    			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
+	    			'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getBaseGrandTotal()),
 	    			'amountCom'=>sprintf("%.2f" ,(float)$amountCom),
-	    			'comment'=>'',
+	    			'comment'=>$comment,
 	    			'returnUrl'=>urlencode(Mage::getUrl($this->getConfigData('return_url'))),
 	    			'cancelUrl'=>urlencode(Mage::getUrl($this->getConfigData('cancel_url'))),
 	    			'errorUrl'=>urlencode(Mage::getUrl($this->getConfigData('error_url'))),
@@ -154,9 +159,9 @@
     			$params = array(
     					'wkToken'=>$this->getOrder()->getIncrementId(),
     					'wallet'=> $this->getHelper()->getConfig()->getWaleltMerchantId(),
-    					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getGrandTotal()),
+    					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getBaseGrandTotal()),
     					'amountCom'=>sprintf("%.2f" ,(float)$amountCom),
-    					'message'=>Mage::helper('sirateck_lemonway')->__('Money In with Card Id for order #%s',$this->getOrder()->getIncrementId()),
+    					'message'=>$comment . " -- "  .Mage::helper('sirateck_lemonway')->__('Oneclic mode (card id: %s)',$cardId),
     					'autoCommission'=>0,
     					'cardId'=>$cardId, 
     					'isPreAuth'=>0, 
