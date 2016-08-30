@@ -5,7 +5,7 @@ return array(
   'summary'                => 'INTEGRATE YOUR TECHNOLOGY, MAKE THE MOST OF OUR SERVICES!',
   'description'            => 'Through its API, Lemon Way offers you state-of-the-art payment technology. Beyond their technological expertise, Lemon Way also offers a multitude of complementary regulation and management services.',
   'notes'                  => '',
-  'extension_version'      => '0.1.0',
+  'extension_version'      => '1.0.1',
   'skip_version_compare'   => false,
   'auto_detect_version'    => true,
 

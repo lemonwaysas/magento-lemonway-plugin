@@ -169,7 +169,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 		if (isset($_SERVER['REMOTE_ADDR']))
 			$ip = $_SERVER['REMOTE_ADDR'];
 			
-		$xml_soap = '<?xml version="1.0" encoding="utf-8"?><soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><'.$methodName.' xmlns="Service_mb">';
+		$xml_soap = '<?xml version="1.0" encoding="utf-8"?><soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><'.$methodName.' xmlns="Service_mb_xml">';
 		
 		foreach ($params as $key => $value) {
 			$xml_soap .= '<'.$key.'>'.$value.'</'.$key.'>';
@@ -191,7 +191,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 						"Accept: application/xml",
 						"Cache-Control: no-cache",
 						"Pragma: no-cache",
-						'SOAPAction: "Service_mb/'.$methodName.'"',
+						'SOAPAction: "Service_mb_xml/'.$methodName.'"',
 						"Content-length: ".strlen($xml_soap),
 		);
 		
