@@ -158,7 +158,7 @@
     			//call directkit for MoneyInWithCardId
     			$params = array(
     					'wkToken'=>$this->getOrder()->getIncrementId(),
-    					'wallet'=> $this->getHelper()->getConfig()->getWaleltMerchantId(),
+    					'wallet'=> $this->getHelper()->getConfig()->getWalletMerchantId(),
     					'amountTot'=>sprintf("%.2f" ,(float)$this->getOrder()->getBaseGrandTotal()),
     					'amountCom'=>sprintf("%.2f" ,(float)$amountCom),
     					'message'=>$comment . " -- "  .Mage::helper('sirateck_lemonway')->__('Oneclic mode (card id: %s)',$cardId),
