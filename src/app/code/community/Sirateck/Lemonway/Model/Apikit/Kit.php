@@ -222,7 +222,7 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
 				$response = html_entity_decode($response);
 				
 				$response = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $response);
-				$response = str_replace('xmlns="Service_mb"', '', $response); //suppress absolute uri warning
+				$response = str_replace('xmlns="Service_mb_xml"', '', $response); //suppress absolute uri warning
 				$xml = new SimpleXMLElement($response);
 
 				$content = $xml->soapBody->{$methodName.'Response'}->{$methodName.'Result'};
