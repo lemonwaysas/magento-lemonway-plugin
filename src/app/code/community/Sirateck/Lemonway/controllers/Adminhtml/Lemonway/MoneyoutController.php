@@ -92,7 +92,7 @@ class Sirateck_Lemonway_Adminhtml_Lemonway_MoneyoutController extends Sirateck_L
                         if($op->getHpayId())
                         {
                             
-                            $this->_getSession()->addSuccess($this->__("You paid %s to your Iban %s from your wallet <b>%s</b>",$amountFormated,$iban,$walletId));
+                            $this->_getSession()->addSuccess($this->__("You paid %s to your Iban %s from your wallet <b>%s</b>", $amountFormated, $iban, $walletId));
                         }
                         else {
                             Mage::throwException($this->__("An error occurred. Please contact support."));
