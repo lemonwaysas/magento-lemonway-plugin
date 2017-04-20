@@ -161,35 +161,45 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
      * @param float $version
      * @return Sirateck_Lemonway_Model_Apikit_Apiresponse $apiResponse 
      */
-    private function sendRequest($methodName, $params, $version){
+    private function sendRequest($methodName, $params, $version)
+    {
         $ua = '';
-        if (isset($_SERVER['HTTP_USER_AGENT']))
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
             $ua = $_SERVER['HTTP_USER_AGENT'];
+        }
+
         $ip = '';
-        if (isset($_SERVER['REMOTE_ADDR']))
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $tmpip = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = trim($tmpip[0]);
+        } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
             $ip = $_SERVER['REMOTE_ADDR'];
+        }
             
-        $xml_soap = '<?xml version="1.0" encoding="utf-8"?><soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><'.$methodName.' xmlns="Service_mb_xml">';
+        $xml_soap = '<?xml version="1.0" encoding="utf-8"?><soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><' . $methodName . ' xmlns="Service_mb_xml">';
         
         foreach ($params as $key => $value) {
-            $xml_soap .= '<'.$key.'>'.$value.'</'.$key.'>';
+            $xml_soap .= '<' . $key . '>' . $this->cleanRequest($value) . '</' . $key . '>';
         }
-        $xml_soap .= '<version>'.$version.'</version>';
-        $xml_soap .= '<wlPass>'.$this->getConfig()->getApiPass().'</wlPass>';
-        $xml_soap .= '<wlLogin>'.$this->getConfig()->getApiLogin().'</wlLogin>';
+
+        $xml_soap .= '<version>' . $version . '</version>';
+        $xml_soap .= '<wlPass>' . $this->cleanRequest($this->getConfig()->getApiPass()) . '</wlPass>';
+        $xml_soap .= '<wlLogin>' . $this->cleanRequest($this->getConfig()->getApiLogin()) . '</wlLogin>';
         $xml_soap .= '<language>fr</language>';
-        $xml_soap .= '<walletIp>'.$ip.'</walletIp>';
-        $xml_soap .= '<walletUa>'.$ua.'</walletUa>';
+        $xml_soap .= '<walletIp>' . $ip . '</walletIp>';
+        $xml_soap .= '<walletUa>' . $ua . '</walletUa>';
         
-        $xml_soap .= '</'.$methodName.'></soap12:Body></soap12:Envelope>';
+        $xml_soap .= '</' . $methodName . '></soap12:Body></soap12:Envelope>';
         
                         
         $headers = array("Content-type: text/xml;charset=utf-8",
                         "Accept: application/xml",
                         "Cache-Control: no-cache",
                         "Pragma: no-cache",
-                        'SOAPAction: "Service_mb_xml/'.$methodName.'"',
-                        "Content-length: ".strlen($xml_soap),
+                        'SOAPAction: "Service_mb_xml/' . $methodName . '"',
+                        "Content-length: " . strlen($xml_soap),
         );
         
         $ch = curl_init();
@@ -265,8 +275,8 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
         curl_close($ch);
     }
     
-    public function printCardForm($moneyInToken, $cssUrl = '', $language = 'fr'){
-        
+    public function printCardForm($moneyInToken, $cssUrl = '', $language = 'fr')
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->getConfig()->getWebkitUrl()."?moneyintoken=".$moneyInToken.'&p='.urlencode($cssUrl).'&lang='.$language);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -288,6 +298,15 @@ class Sirateck_Lemonway_Model_Apikit_Kit{
                     break;
             }
         }
+    }
+
+    private function cleanRequest($str)
+    {
+        $str = str_replace('&', htmlentities('&'), $str);
+        $str = str_replace('<', htmlentities('<'), $str);
+        $str = str_replace('>', htmlentities('>'), $str);
+
+        return $str;
     }
     
     /**
