@@ -50,11 +50,13 @@ class Sirateck_Lemonway_Model_Wallet extends Mage_Core_Model_Abstract
      4  => "Document remplacé par un autre document",
      5  => "Validité du document expiré"); */
     
-    public static $statuesLabel = array(1 => "Document only received",
-    		2  => "Document checked and accepted",
+    public static $statuesLabel = array(
+            2  => "Document checked but not accepted",
     		3  => "Document checked but not accepted",
-    		4  => "Document replaced by another document",
-    		5  => "Document validity expired");
+    		5  => "Waiting for documents",
+            6  => "Document checked and accepted",
+    		8  => "Document validity expired"
+    );
     
     public static $docsType = array(
     		0=>"ID card (UE)",
