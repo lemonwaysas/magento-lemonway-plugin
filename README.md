@@ -1,3 +1,5 @@
+⚠️WARNING: This client is deprecated⚠️ 
+
 # Module Magento Lemonway
 ---
 ## How to use this repository
